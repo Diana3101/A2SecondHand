@@ -40,7 +40,6 @@ public class SellerService {
 
             if(existsStorageItem == null){
                 Storage storageItem = new Storage();
-                //storageItem.setId(UUID.randomUUID());
                 storageItem.setThing(thingTemp);
                 storageItem.setQuantity(thingQTemp);
                 storageRepository.save(storageItem);

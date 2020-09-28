@@ -48,13 +48,11 @@ public class OrderService {
                 thingItem.setQuantity(newQuantity);
                 storageRepository.save(thingItem);
             }else {
-                //System.out.println("There is no " + th.getName() + ". It has been sold already.");
                 storageRepository.delete(thingItem);
             }
         }
         if(toOrder.size() > 0){
             Order order = new Order(toOrder, sellerToOrder, customer);
-            //System.out.println("New order has created: " + order);
             customerRepository.save(customer);
             orderRepository.save(order);
         }

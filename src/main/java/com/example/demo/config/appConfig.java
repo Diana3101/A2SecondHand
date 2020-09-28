@@ -18,9 +18,6 @@ public class appConfig {
         return strings -> {
             List<Thing> orderedlist = new ArrayList<Thing>();
             Seller seller = new Seller("Dasha", "Orlova", orderedlist, SellerWish.GooglePromotion);
-            //Thing dress = new Thing(NameofThing.dress, 300, Size.M, ConditionOfThing.good, seller);
-            //thingRepository.save(dress);
-            //seller.addThingToList(dress);
             sellerRepository.save(seller);
 
         };

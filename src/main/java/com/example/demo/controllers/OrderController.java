@@ -29,7 +29,6 @@ public class OrderController {
         Customer customer = createOrder.getCustomer();
         List<Thing> things = createOrder.getThings();
         orderService.addOrder(seller, things, customer);
-        System.out.println(seller);
         return ResponseEntity.ok().build();
     }
 

@@ -33,17 +33,12 @@ public class SellerController {
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         ServeDTO serve = gson.fromJson(serveJson, ServeDTO.class);
         List<Thing> toStorage = serve.getThings();
-        System.out.println(serve);
         List<Integer> thingQuantities = serve.getThingQuantities();
         Seller jsonSeller = serve.getSeller();
-        //System.out.println(seller);
 
         Seller seller = sellerService.findSellerByName(jsonSeller.getFirstName(), jsonSeller.getLastName());
-        System.out.println(seller);
-        //sellerService.addSeller(seller);
         for(Thing th: toStorage){
             th.setAddedBy(seller);
-            System.out.println(th);
             thingService.addThing(th);
         }
         sellerService.addThingsToStorage(seller, toStorage, thingQuantities);
