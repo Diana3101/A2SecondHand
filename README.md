@@ -9,6 +9,7 @@ POST("/sellers").
 
 
 CustomerController:
+
 GET("/customers"); 
 
 GET("/customers/{id}"); 
@@ -19,12 +20,14 @@ DELETE("/customers/{id}").
 
 
 ThingController:
+
 GET("/things"); 
 
 GET("/things/{id}").
 
 
 OrderController:
+
 GET("/orders");
 
 GET("/orders/{id}");
