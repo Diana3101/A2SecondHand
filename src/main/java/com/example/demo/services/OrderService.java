@@ -2,12 +2,15 @@ package com.example.demo.services;
 
 import com.example.demo.entities.*;
 import com.example.demo.repo.*;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -26,7 +29,7 @@ public class OrderService {
         this.sellerRepository = sellerRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional()
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -56,6 +59,15 @@ public class OrderService {
             customerRepository.save(customer);
             orderRepository.save(order);
         }
+    }
+
+    @Transactional
+    public Order getOrderById(UUID id) throws NotFoundException {
+        Optional<Order> tempOrder = orderRepository.findById(id);
+        if (tempOrder.isPresent())
+            return tempOrder.get();
+        else
+            throw new NotFoundException(String.format("Order with id %s was not found", id));
     }
 }
 

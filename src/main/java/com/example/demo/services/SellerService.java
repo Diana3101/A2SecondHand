@@ -5,12 +5,14 @@ import com.example.demo.entities.Storage;
 import com.example.demo.entities.Thing;
 import com.example.demo.repo.SellerRepository;
 import com.example.demo.repo.StorageRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -54,7 +56,16 @@ public class SellerService {
     }
 
     @Transactional
-    public void addSeller(Seller seller){
-        sellerRepository.save(seller);
+    public List<Seller> getSellers(){
+        return sellerRepository.findAll();
+    }
+
+    @Transactional
+    public Seller getSellerById(UUID id) throws NotFoundException {
+        Optional<Seller> tempSeller = sellerRepository.findById(id);
+        if (tempSeller.isPresent())
+            return tempSeller.get();
+        else
+            throw new NotFoundException(String.format("Seller with id %s was not found", id));
     }
 }

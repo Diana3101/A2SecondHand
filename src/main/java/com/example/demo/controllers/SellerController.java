@@ -7,17 +7,16 @@ import com.example.demo.services.SellerService;
 import com.example.demo.services.ThingService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("sell")
+@RequestMapping("sellers")
 public class SellerController {
     private final SellerService sellerService;
     private final ThingService thingService;
@@ -28,7 +27,18 @@ public class SellerController {
         this.thingService = thingService;
     }
 
-    @PostMapping("sellThings")
+    @GetMapping
+    public ResponseEntity<List<Seller>> show() {
+        return ResponseEntity.ok(sellerService.getSellers());
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Seller> showById(@PathVariable UUID id) throws NotFoundException {
+        return ResponseEntity.ok(sellerService.getSellerById(id));
+    }
+
+
+    @PostMapping
     public ResponseEntity<Void> getThingsFromSeller(@RequestBody String serveJson){
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();
         ServeDTO serve = gson.fromJson(serveJson, ServeDTO.class);

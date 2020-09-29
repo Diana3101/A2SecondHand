@@ -2,11 +2,14 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Thing;
 import com.example.demo.repo.ThingRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ThingService {
@@ -28,4 +31,19 @@ public class ThingService {
             thingRepository.save(thing);
         }
     }
+
+    @Transactional
+    public List<Thing> getThings(){
+        return thingRepository.findAll();
+    }
+
+    @Transactional
+    public Thing getThingById(UUID id)throws NotFoundException {
+        Optional<Thing> tempThing = thingRepository.findById(id);
+        if (tempThing.isPresent())
+            return tempThing.get();
+        else
+            throw new NotFoundException(String.format("Thing with id %s was not found", id));
+    }
+
 }
